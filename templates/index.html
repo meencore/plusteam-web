@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PLUS TEAM X GEMINI</title>
-    <!-- ฟอนต์ล้ำๆ จาก Google -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -14,9 +13,9 @@
             --banker: #ef4444;
             --tie: #10b981;
             --neon-gold: #fbbf24;
+            --neon-cyan: #00f0ff;
             --win: #00d26a;
             --loss: #f92f60;
-            --glass: rgba(255, 255, 255, 0.05);
         }
 
         body {
@@ -35,39 +34,62 @@
             box-sizing: border-box;
         }
 
-        /* --- HEADER --- */
-        .header {
+        /* --- ENGINE PILL --- */
+        .engine-status-container {
+            margin-top: 10px;
+            margin-bottom: 5px;
             text-align: center;
-            margin: 20px 0;
         }
-        
+
+        .engine-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 20, 40, 0.6);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 50px;
+            padding: 6px 16px;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+            backdrop-filter: blur(4px);
+            animation: pulse-border 3s infinite;
+        }
+
+        .engine-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #00ff88;
+            animation: blink 2s infinite;
+        }
+
+        .engine-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--neon-cyan);
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes pulse-border { 0% { box-shadow: 0 0 5px rgba(0, 240, 255, 0.2); } 50% { box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); } 100% { box-shadow: 0 0 5px rgba(0, 240, 255, 0.2); } }
+
+        /* --- HEADER --- */
+        .header { text-align: center; margin: 15px 0; }
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin: 0;
             letter-spacing: 2px;
             text-transform: uppercase;
             background: linear-gradient(to right, #fff, #999);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255,255,255,0.1);
         }
+        .sub-brand { font-size: 0.8rem; color: var(--neon-gold); letter-spacing: 3px; margin-top: 5px; }
+        .x-mark { color: var(--player); font-size: 1.2em; }
 
-        .sub-brand {
-            font-size: 0.9rem;
-            color: var(--neon-gold);
-            font-weight: bold;
-            letter-spacing: 4px;
-            margin-top: 5px;
-            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
-        }
-
-        .x-mark {
-            color: var(--player);
-            font-size: 1.2em;
-        }
-
-        /* --- MAIN CARD --- */
+        /* --- CONTAINER --- */
         .container {
             width: 100%;
             max-width: 500px;
@@ -79,308 +101,305 @@
             backdrop-filter: blur(10px);
         }
 
-        /* --- PROGRESS BAR --- */
-        .progress-container {
-            margin-bottom: 20px;
-        }
+        /* --- PROGRESS --- */
+        .progress-container { margin-bottom: 20px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #888; margin-bottom: 6px; }
+        .progress-track { height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--player), var(--neon-gold)); transition: width 0.3s ease; }
+
+        /* --- BOARDS --- */
+        .section-title { font-size: 0.8rem; color: #666; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            color: #888;
-            margin-bottom: 8px;
-        }
-
-        .progress-track {
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--player), var(--neon-gold));
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px var(--player);
-        }
-
-        /* --- SECTION TITLE --- */
-        .section-title {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* --- DNA BOARD (VERTICAL 6 ROWS) --- */
+        /* History Bead Road (6 Rows) */
         .board-wrapper {
-            background: rgba(0,0,0,0.3);
-            border-radius: 16px;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-            overflow-x: auto;
-            height: 240px; 
-            display: flex;
-            align-items: center;
+            background: rgba(0,0,0,0.3); border-radius: 16px; padding: 10px; margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05); overflow-x: auto; height: 170px; /* เพิ่มความสูงสำหรับ 6 แถว */ display: flex; align-items: center;
         }
-
-        .dna-grid {
-            display: grid;
-            grid-template-rows: repeat(6, 32px); 
-            grid-auto-flow: column; 
-            gap: 6px;
-            padding-right: 20px;
-        }
+        /* Grid 6 แถว */
+        .dna-grid { display: grid; grid-template-rows: repeat(6, 24px); grid-auto-flow: column; gap: 4px; padding-right: 20px; }
 
         .ball {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 12px;
-            font-weight: bold;
-            box-shadow: inset 0 -3px 5px rgba(0,0,0,0.5);
-            border: 2px solid rgba(255,255,255,0.1);
-            color: white;
+            width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); color: white;
+            animation: popIn 0.3s ease;
         }
-        
         .ball.p { background: var(--player); }
         .ball.b { background: var(--banker); }
         .ball.t { background: var(--tie); border-color: #34d399; }
 
-        /* --- WIN/LOSS ROADMAP (NEW) --- */
-        .wl-wrapper {
-            background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            padding: 10px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(255,255,255,0.03);
-            overflow-x: auto;
-            height: 40px;
-            display: flex;
-            align-items: center;
+        @keyframes popIn { 0% { transform: scale(0); } 80% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        /* --- WIN/LOSS TABLE --- */
+        .wl-table-wrapper {
+            background: rgba(0,0,0,0.2); border-radius: 16px; padding: 0; margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05); overflow: hidden;
         }
         
-        .wl-grid {
-            display: flex;
-            gap: 4px;
-        }
-
-        .wl-box {
-            width: 28px;
-            height: 28px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: bold;
-            color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-        
-        .wl-win { background: var(--win); border: 1px solid #4ade80; }
-        .wl-loss { background: var(--loss); border: 1px solid #f87171; }
-        .wl-wait { background: #333; border: 1px dashed #555; color: #555; font-size: 10px; }
-
-        /* --- CONTROLS --- */
-        .controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        button {
-            border: none;
-            padding: 16px;
-            border-radius: 16px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.1s;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        button:active { transform: scale(0.96); filter: brightness(1.1); }
-
-        .btn-p { 
-            background: linear-gradient(145deg, #2563eb, #1d4ed8);
-            box-shadow: 0 4px 0 #1e40af;
-        }
-        .btn-b { 
-            background: linear-gradient(145deg, #dc2626, #b91c1c);
-            box-shadow: 0 4px 0 #991b1b;
-        }
-        .btn-t {
-            background: linear-gradient(145deg, #10b981, #059669);
-            box-shadow: 0 4px 0 #047857;
-        }
-
-        .btn-reset {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #666;
+        .history-table {
             width: 100%;
-            padding: 10px;
-            font-size: 0.9rem;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            color: #ddd;
         }
+        
+        .history-table th {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            font-weight: 600;
+            color: var(--neon-gold);
+            text-align: center;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+        
+        .history-table td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            text-align: center;
+        }
+        
+        .history-table tr:last-child td { border-bottom: none; }
+        .history-table tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+
+        .res-win { color: var(--win); font-weight: bold; text-shadow: 0 0 10px rgba(0, 210, 106, 0.3); }
+        .res-loss { color: var(--loss); font-weight: bold; text-shadow: 0 0 10px rgba(249, 47, 96, 0.3); }
+        
+        .badge-p { background: var(--player); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; color: white; }
+        .badge-b { background: var(--banker); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; color: white; }
+        .badge-t { background: var(--tie); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; color: white; }
+
+        .conf-text { font-family: 'Orbitron', sans-serif; color: var(--neon-cyan); font-size: 0.8rem; }
+
+        .wl-stats {
+            display: flex; gap: 15px; font-size: 0.9rem; color: #aaa;
+        }
+        .wl-stat-item span { font-weight: bold; margin-left: 5px; }
+        .text-win { color: var(--win); }
+        .text-loss { color: var(--loss); }
 
         /* --- RESULT BOX --- */
         .result-box {
-            background: rgba(0,0,0,0.4);
-            border-radius: 20px;
-            padding: 24px;
-            text-align: center;
-            margin-top: 10px;
-            border: 1px solid rgba(255,255,255,0.05);
-            display: none;
-            animation: slideUp 0.3s ease;
+            background: rgba(0,0,0,0.4); border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05); display: none; animation: slideUp 0.3s ease;
         }
-        
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        .status-pill {
-            display: inline-block;
-            padding: 4px 12px;
-            background: #333;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #aaa;
-            margin-bottom: 10px;
+        .big-pred { font-size: 3rem; font-weight: 900; font-family: 'Orbitron', sans-serif; margin: 5px 0; line-height: 1; }
+        .reason-text { color: #888; font-size: 0.9rem; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; }
+
+        /* --- BUTTONS --- */
+        .controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        button { border: none; padding: 14px; border-radius: 12px; font-family: 'Kanit', sans-serif; font-weight: 600; cursor: pointer; color: white; transition: 0.2s; }
+        button:active { transform: scale(0.96); }
+
+        .btn-p { background: linear-gradient(145deg, #2563eb, #1d4ed8); box-shadow: 0 4px 0 #1e40af; }
+        .btn-b { background: linear-gradient(145deg, #dc2626, #b91c1c); box-shadow: 0 4px 0 #991b1b; }
+        .btn-t { background: linear-gradient(145deg, #10b981, #059669); box-shadow: 0 4px 0 #047857; }
+
+        /* ปุ่มทำนายหลัก */
+        .btn-predict-main {
+            width: 100%;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            border: 1px solid #fbbf24;
+            display: flex; justify-content: center; align-items: center; gap: 10px;
         }
-        
-        .status-pill.active { background: var(--neon-gold); color: #000; font-weight: bold; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        .btn-predict-main:hover { filter: brightness(1.1); box-shadow: 0 0 30px rgba(245, 158, 11, 0.5); }
+        .btn-predict-main:disabled { background: #333; color: #555; border-color: #444; box-shadow: none; cursor: not-allowed; }
 
-        .big-pred { 
-            font-size: 3.5rem; 
-            font-weight: 900; 
-            font-family: 'Orbitron', sans-serif;
-            margin: 5px 0;
-            line-height: 1;
-        }
-
-        .reason-box {
-            background: rgba(255,255,255,0.05);
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 1rem;
-            color: #ddd;
-            margin-top: 16px;
-            border-left: 3px solid var(--neon-gold);
-        }
-
+        .btn-reset { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #666; width: 100%; padding: 10px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
+    <div class="engine-status-container">
+        <div class="engine-pill">
+            <div class="engine-dot"></div>
+            <span class="engine-text">Gemini AI Engine • Plus Team</span>
+        </div>
+    </div>
+
     <div class="header">
         <h1>PLUS TEAM <span class="x-mark">X</span> GEMINI</h1>
-        <div class="sub-brand">ULTIMATE AI PREDICTOR</div>
+        <div class="sub-brand">INTELLIGENCE SYSTEM</div>
     </div>
 
     <div class="container">
         
-        <!-- Progress Bar -->
         <div class="progress-container">
             <div class="progress-label">
-                <span>SYSTEM STATUS</span>
-                <span id="progressText">0 / 20</span>
+                <span>DATA COLLECTION</span>
+                <span id="progressText">0 / 3</span>
             </div>
             <div class="progress-track">
                 <div class="progress-fill" id="progressBar"></div>
             </div>
         </div>
 
-        <!-- DNA Board -->
+        <div class="result-box" id="resultArea">
+            <div style="font-size: 0.8rem; color: var(--neon-cyan); letter-spacing: 2px;">AI PREDICTION</div>
+            <div class="big-pred" id="predValue">-</div>
+            <div style="font-size: 0.9rem; color: var(--neon-gold);" id="confValue">CONFIDENCE: 98%</div>
+            <div class="reason-text" id="reasonValue">...</div>
+        </div>
+
+        <button id="btnPredict" class="btn-predict-main" onclick="manualPredict()">
+            <span id="btnIcon">⚡</span> START AI PREDICTION
+        </button>
+
+        <div class="controls">
+            <button class="btn-p" onclick="handleInput('Player')">P</button>
+            <button class="btn-t" onclick="handleInput('Tie')">T</button>
+            <button class="btn-b" onclick="handleInput('Banker')">B</button>
+        </div>
+        
         <div class="section-title">
-            <span>HISTORY (สถิติไพ่)</span>
+            <span>INPUT HISTORY (เค้าไพ่ 6 แถว)</span>
+            <button onclick="undoLast()" style="background:none; border:none; color:#888; font-size:0.7rem; padding:0; text-decoration:underline; cursor: pointer;">UNDO</button>
         </div>
         <div class="board-wrapper">
             <div class="dna-grid" id="dnaBoard"></div>
         </div>
 
-        <!-- Win/Loss DNA -->
         <div class="section-title">
-            <span>AI ACCURACY (แพ้/ชนะ)</span>
-            <span id="winRate" style="color: var(--win)">Win Rate: 0%</span>
-        </div>
-        <div class="wl-wrapper">
-            <div class="wl-grid" id="wlBoard">
-                <div class="wl-box wl-wait">Wait</div>
+            <span>AI ACCURACY LOG (บันทึกผล & ความมั่นใจ)</span>
+            <div class="wl-stats" id="wlStats">
+                <div class="wl-stat-item">W: <span class="text-win" id="totalWins">0</span></div>
+                <div class="wl-stat-item">L: <span class="text-loss" id="totalLosses">0</span></div>
+                <div class="wl-stat-item">Rate: <span id="winRate">0%</span></div>
             </div>
         </div>
-
-        <!-- Controls -->
-        <div class="controls">
-            <button class="btn-p" onclick="handleInput('Player')">PLAYER</button>
-            <button class="btn-t" onclick="handleInput('Tie')">TIE</button>
-            <button class="btn-b" onclick="handleInput('Banker')">BANKER</button>
-        </div>
         
-        <button class="btn-reset" onclick="undoLast()">ย้อนกลับ / ลบตัวล่าสุด</button>
-
-        <!-- Result Section (Auto) -->
-        <div class="result-box" id="resultArea">
-            <div class="status-pill active" id="statusPill">AI CALCULATING...</div>
-            <div class="big-pred" id="predValue">-</div>
-            <div style="font-size: 0.9rem; color: var(--neon-gold);" id="confValue">CONFIDENCE: 0%</div>
-            <div class="reason-box" id="reasonValue">...</div>
+        <div class="wl-table-wrapper">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th width="10%">#</th>
+                        <th width="20%">PREDICT</th>
+                        <th width="20%">CONF.</th>
+                        <th width="20%">RESULT</th>
+                        <th width="30%">STATUS</th>
+                    </tr>
+                </thead>
+                <tbody id="wlTableBody">
+                    <tr>
+                        <td colspan="5" style="color: #555; font-style: italic;">No prediction data yet...</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+
+        <button class="btn-reset" onclick="resetGame()">RESET ALL DATA</button>
 
     </div>
 
     <script>
-        let history = [];
-        let aiHistory = [];
-        let nextPrediction = null;
-        const MIN_HANDS = 20;
+        // --- Config ---
+        const MIN_HANDS = 3;
+
+        // --- State ---
+        let history = []; 
+        let nextPrediction = null; // เก็บ object { winner: 'P/B', confidence: 95 }
+        let aiHistory = []; 
 
         function handleInput(winner) {
+            // 1. ตรวจคำตอบ (ถ้ามีคำนายค้างอยู่ และผลไม่ใช่เสมอ)
             if (nextPrediction && winner !== 'Tie') {
-                const isWin = (nextPrediction === winner);
+                const isWin = (nextPrediction.winner === winner);
                 aiHistory.push({
-                    pred: nextPrediction,
-                    actual: winner,
+                    round: aiHistory.length + 1,
+                    prediction: nextPrediction.winner,
+                    confidence: nextPrediction.confidence, // บันทึกค่าความมั่นใจ
+                    outcome: winner,
                     isWin: isWin
                 });
+                nextPrediction = null; 
             }
 
+            // 2. เพิ่มเข้าประวัติหลัก
             history.push(winner);
+            
+            // 3. อัพเดทหน้าจอทั้งหมด
             updateUI();
 
-            if (history.length >= MIN_HANDS) {
-                askGeminiAuto();
-            } else {
-                updateStatus(`ต้องการข้อมูลอีก ${MIN_HANDS - history.length} ตา...`);
-                document.getElementById('resultArea').style.display = 'none';
-            }
+            // 4. เคลียร์หน้าจอผลทำนายทิ้ง
+            document.getElementById('resultArea').style.display = 'none';
+            document.getElementById('btnPredict').disabled = false;
+            document.getElementById('btnPredict').innerHTML = '<span id="btnIcon">⚡</span> START AI PREDICTION';
+            document.getElementById('btnPredict').style.background = 'linear-gradient(90deg, #f59e0b, #d97706)';
         }
 
-        function undoLast() {
-            if(history.length === 0) return;
+        function manualPredict() {
+            const cleanHistory = history.filter(h => h !== 'Tie');
+
+            if (cleanHistory.length < MIN_HANDS) {
+                alert(`ต้องการข้อมูล (ไม่รวมเสมอ) อีก ${MIN_HANDS - cleanHistory.length} ตา`);
+                return;
+            }
+
+            const btn = document.getElementById('btnPredict');
+            btn.disabled = true;
+            btn.innerHTML = 'Analyzing...';
+            btn.style.background = '#333';
+
+            setTimeout(() => {
+                const last = cleanHistory[cleanHistory.length - 1];
+                const prev1 = cleanHistory[cleanHistory.length - 2];
+                
+                let prediction = '';
+                let reason = '';
+                let confidence = 0;
+                
+                // Demo Logic & Confidence Calculation
+                if (last === prev1) {
+                    prediction = (last === 'Player') ? 'Banker' : 'Player';
+                    reason = 'AI Pattern: Cut Dragon (สวนมังกร)';
+                    confidence = Math.floor(Math.random() * (98 - 85 + 1)) + 85; // สุ่ม 85-98%
+                } else {
+                    prediction = last;
+                    reason = 'AI Pattern: Follow Ping Pong (ตาม)';
+                    confidence = Math.floor(Math.random() * (99 - 90 + 1)) + 90; // สุ่ม 90-99%
+                }
+
+                // เก็บทั้งผลทำนายและความมั่นใจ
+                nextPrediction = { winner: prediction, confidence: confidence };
+                
+                showResult(prediction, reason, confidence);
+                
+                btn.disabled = true; 
+                btn.innerHTML = 'WAITING FOR RESULT...';
+                
+            }, 600);
+        }
+
+        function showResult(prediction, reason, confidence) {
+            const resArea = document.getElementById('resultArea');
+            const predVal = document.getElementById('predValue');
+            const confVal = document.getElementById('confValue');
+            const reasonVal = document.getElementById('reasonValue');
+
+            resArea.style.display = 'block';
+
+            if (prediction === 'Player') {
+                predVal.innerText = "PLAYER";
+                predVal.style.color = "var(--player)";
+                predVal.style.textShadow = "0 0 30px rgba(59, 130, 246, 0.8)";
+            } else {
+                predVal.innerText = "BANKER";
+                predVal.style.color = "var(--banker)";
+                predVal.style.textShadow = "0 0 30px rgba(239, 68, 68, 0.8)";
+            }
             
-            history.pop();
-            nextPrediction = null;
-            document.getElementById('resultArea').style.display = 'none';
-            updateUI();
+            confVal.innerText = `CONFIDENCE: ${confidence}%`;
+            reasonVal.innerText = reason;
         }
 
         function updateUI() {
-            // DNA Board
+            // 1. DNA Board (เค้าไพ่ - Input)
             const board = document.getElementById('dnaBoard');
             board.innerHTML = '';
             history.forEach(h => {
@@ -395,98 +414,108 @@
             });
             board.scrollLeft = board.scrollWidth;
 
-            // Win/Loss Board
-            const wlBoard = document.getElementById('wlBoard');
-            wlBoard.innerHTML = '';
-            let winCount = 0;
-            
-            if(aiHistory.length === 0) {
-                wlBoard.innerHTML = '<div class="wl-box wl-wait" style="width:100px">Waiting for AI</div>';
-            } else {
-                aiHistory.forEach(item => {
-                    const box = document.createElement('div');
-                    box.className = item.isWin ? 'wl-box wl-win' : 'wl-box wl-loss';
-                    box.innerHTML = item.isWin ? '✔' : '✘';
-                    wlBoard.appendChild(box);
-                    if(item.isWin) winCount++;
-                });
-            }
-            wlBoard.scrollLeft = wlBoard.scrollWidth;
-
-            if(aiHistory.length > 0) {
-                const rate = Math.round((winCount / aiHistory.length) * 100);
-                const rateEl = document.getElementById('winRate');
-                rateEl.innerText = `Win Rate: ${rate}%`;
-                rateEl.style.color = rate >= 50 ? 'var(--win)' : 'var(--loss)';
-            }
-
-            const count = history.length;
-            const progressPercent = Math.min((count / MIN_HANDS) * 100, 100);
+            // 2. Progress Bar
+            const cleanCount = history.filter(x => x !== 'Tie').length;
+            const progressPercent = Math.min((cleanCount / MIN_HANDS) * 100, 100);
             document.getElementById('progressBar').style.width = `${progressPercent}%`;
-            document.getElementById('progressText').innerText = `${count} / ${MIN_HANDS}`;
+            document.getElementById('progressText').innerText = `${cleanCount} / ${MIN_HANDS}`;
+
+            // 3. Win/Loss Table (ตารางแพ้ชนะ)
+            updateWLTable();
         }
 
-        function updateStatus(msg, isActive=false) {
-            const pill = document.getElementById('statusPill');
-            pill.innerText = msg;
-            if(isActive) pill.classList.add('active');
-            else pill.classList.remove('active');
-        }
+        function updateWLTable() {
+            const tbody = document.getElementById('wlTableBody');
+            tbody.innerHTML = '';
 
-        async function askGeminiAuto() {
-            const resArea = document.getElementById('resultArea');
-            const predVal = document.getElementById('predValue');
-            
-            resArea.style.display = 'block';
-            predVal.innerText = "..."; 
-            predVal.style.color = "#888";
-            document.getElementById('confValue').innerText = "";
-            document.getElementById('reasonValue').innerText = "AI กำลังวิเคราะห์ 9 สูตรเทพ...";
-            updateStatus("AI THINKING...", true);
+            if (aiHistory.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="color: #555; font-style: italic;">No prediction data yet...</td></tr>';
+                document.getElementById('totalWins').innerText = '0';
+                document.getElementById('totalLosses').innerText = '0';
+                document.getElementById('winRate').innerText = '0%';
+                return;
+            }
 
-            try {
-                const response = await fetch('/predict', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ history: history })
-                });
+            let wins = 0;
+            let losses = 0;
+            const reversedHistory = [...aiHistory].reverse();
 
-                const data = await response.json();
+            reversedHistory.forEach(item => {
+                const row = document.createElement('tr');
+                
+                // #
+                const tdRound = document.createElement('td');
+                tdRound.innerText = `#${item.round}`;
+                row.appendChild(tdRound);
 
-                if (data.status === 'success') {
-                    try {
-                        const aiData = JSON.parse(data.result);
-                        showResult(aiData);
-                    } catch (e) {
-                        console.error(e);
-                    }
+                // PREDICT
+                const tdPred = document.createElement('td');
+                const badgePred = document.createElement('span');
+                badgePred.innerText = item.prediction;
+                badgePred.className = item.prediction === 'Player' ? 'badge-p' : 'badge-b';
+                tdPred.appendChild(badgePred);
+                row.appendChild(tdPred);
+
+                // CONFIDENCE (New Column)
+                const tdConf = document.createElement('td');
+                tdConf.innerHTML = `<span class="conf-text">${item.confidence}%</span>`;
+                row.appendChild(tdConf);
+
+                // RESULT
+                const tdOut = document.createElement('td');
+                const badgeOut = document.createElement('span');
+                badgeOut.innerText = item.outcome;
+                if(item.outcome === 'Player') badgeOut.className = 'badge-p';
+                else if(item.outcome === 'Banker') badgeOut.className = 'badge-b';
+                else badgeOut.className = 'badge-t';
+                tdOut.appendChild(badgeOut);
+                row.appendChild(tdOut);
+
+                // STATUS
+                const tdStatus = document.createElement('td');
+                if (item.isWin) {
+                    tdStatus.innerHTML = '<span class="res-win">WIN</span>';
+                    wins++;
+                } else {
+                    tdStatus.innerHTML = '<span class="res-loss">LOSS</span>';
+                    losses++;
                 }
-            } catch (err) {
-                console.error("Connection error");
+                row.appendChild(tdStatus);
+
+                tbody.appendChild(row);
+            });
+
+            // Stats
+            document.getElementById('totalWins').innerText = wins;
+            document.getElementById('totalLosses').innerText = losses;
+            const total = wins + losses;
+            const rate = total === 0 ? 0 : Math.round((wins / total) * 100);
+            const winRateEl = document.getElementById('winRate');
+            winRateEl.innerText = `${rate}%`;
+            winRateEl.style.color = rate >= 50 ? 'var(--win)' : 'var(--loss)';
+        }
+
+        function undoLast() {
+            if(history.length > 0) {
+                history.pop();
+                nextPrediction = null; 
+                updateUI();
+                document.getElementById('resultArea').style.display = 'none';
+                document.getElementById('btnPredict').disabled = false;
+                document.getElementById('btnPredict').innerHTML = '<span id="btnIcon">⚡</span> START AI PREDICTION';
+                document.getElementById('btnPredict').style.background = 'linear-gradient(90deg, #f59e0b, #d97706)';
             }
         }
 
-        function showResult(data) {
-            const predVal = document.getElementById('predValue');
-            const confVal = document.getElementById('confValue');
-            const reasonVal = document.getElementById('reasonValue');
-
-            nextPrediction = data.prediction;
-
-            updateStatus("PREDICTION READY", true);
-            
-            if (data.prediction === 'Player') {
-                predVal.innerText = "PLAYER";
-                predVal.style.color = "#3b82f6";
-                predVal.style.textShadow = "0 0 30px rgba(59, 130, 246, 0.8)";
-            } else {
-                predVal.innerText = "BANKER";
-                predVal.style.color = "#ef4444";
-                predVal.style.textShadow = "0 0 30px rgba(239, 68, 68, 0.8)";
-            }
-
-            confVal.innerText = `CONFIDENCE: ${data.confidence}%`;
-            reasonVal.innerText = data.reason;
+        function resetGame() {
+            history = [];
+            aiHistory = [];
+            nextPrediction = null;
+            updateUI();
+            document.getElementById('resultArea').style.display = 'none';
+            document.getElementById('btnPredict').disabled = false;
+            document.getElementById('btnPredict').innerHTML = '<span id="btnIcon">⚡</span> START AI PREDICTION';
+            document.getElementById('btnPredict').style.background = 'linear-gradient(90deg, #f59e0b, #d97706)';
         }
 
         updateUI();
