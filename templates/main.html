@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plus Team - สูตรบาคาร่า Free</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Kanit', sans-serif; background-color: #000; color: white; }
+        .card-hover:hover { box-shadow: 0 0 25px rgba(168, 85, 247, 0.4); transform: translateY(-5px); border-color: #a855f7; }
+    </style>
+</head>
+<body class="min-h-screen relative bg-gradient-to-b from-gray-900 to-black">
+
+    <!-- Navigation -->
+    <nav class="absolute top-0 w-full p-6 flex justify-between items-center z-20">
+        <a href="/" class="text-gray-400 hover:text-white flex items-center gap-2 transition-colors">
+            <i data-lucide="chevron-left"></i> กลับหน้าหลัก
+        </a>
+        <div class="text-purple-500 font-bold">PLUS TEAM CENTER</div>
+    </nav>
+
+    <div class="relative z-10 container mx-auto px-4 py-20 flex flex-col items-center max-w-6xl">
+        
+        <header class="text-center mb-12">
+            <!-- เปลี่ยนชื่อหัวข้อ -->
+            <h1 class="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">
+                สูตรบาคาร่า Free
+            </h1>
+            <p class="text-gray-400">เลือกบริการสูตร AI ที่คุณต้องการใช้งาน</p>
+        </header>
+
+        <!-- Grid Container -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full justify-center">
+            
+            <!-- Card 1: Baccarat AI (Active) -->
+            <a href="/baccarat" class="group relative aspect-[3/4] bg-gray-900 rounded-2xl overflow-hidden border border-gray-800 transition-all duration-300 card-hover">
+                <div class="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-20">HOT</div>
+                <img src="https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div class="absolute bottom-0 p-5 w-full">
+                    <h3 class="text-2xl font-bold text-white mb-1">BACCARAT</h3>
+                    <p class="text-purple-400 text-sm font-mono">AI GEMINI 2.5</p>
+                </div>
+            </a>
+
+            <!-- Card 2: Generic Coming Soon -->
+            <div class="group relative aspect-[3/4] bg-gray-900/50 rounded-2xl overflow-hidden border border-gray-800 flex flex-col items-center justify-center text-gray-600">
+                <i data-lucide="lock" class="w-8 h-8 mb-2 opacity-50"></i>
+                <span class="text-sm font-bold">COMING SOON</span>
+                <span class="text-xs mt-1">เร็วๆ นี้</span>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
