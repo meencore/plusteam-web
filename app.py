@@ -16,7 +16,7 @@ app.secret_key = secrets.token_hex(16)
 ACTIVE_USER_SESSION = None 
 
 # --- API KEY ---
-raw_api_key = "AIzaSyDs4JlSatJNjH62lNmY6ekgRwP6PysxB9Y"
+raw_api_key = "AIzaSyDSTzhZLLxipOd8-y1Yn3nsHkLO3Z_LcS4"
 my_clean_key = raw_api_key.strip() 
 os.environ["GOOGLE_API_KEY"] = my_clean_key
 genai.configure(api_key=my_clean_key)
@@ -123,4 +123,5 @@ if __name__ == '__main__':
     print("🚀 PLUS TEAM SYSTEM READY!")
     print("👉 Portal: http://127.0.0.1:5000")
     serve(app, host="0.0.0.0", port=5000, threads=8)
+
 
